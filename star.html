@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Stars Rating UI</title>
+    <style>
+        /* styles.css */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .rating-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        .stars {
+            display: flex;
+            position: relative;
+        }
+
+        .star {
+            width: 50px;
+            height: 50px;
+            background-image: url('stars.png');
+            background-size: 320px 100px; /* assuming 10 frames for 5 stars */
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+
+        .star:hover, .star:hover ~ .star {
+            background-position: 0 -32px; /* hover state */
+        }
+
+        .star[data-value="0.5"]:hover ~ .star {
+            background-position: 0 0; /* reset following stars */
+        }
+        .star[data-value="1.0"]:hover ~ .star {
+            background-position: -32px 0;
+        }
+        .star[data-value="1.5"]:hover ~ .star {
+            background-position: -64px 0;
+        }
+        .star[data-value="2.0"]:hover ~ .star {
+            background-position: -96px 0;
+        }
+        .star[data-value="2.5"]:hover ~ .star {
+            background-position: -128px 0;
+        }
+        .star[data-value="3.0"]:hover ~ .star {
+            background-position: -160px 0;
+        }
+        .star[data-value="3.5"]:hover ~ .star {
+            background-position: -192px 0;
+        }
+        .star[data-value="4.0"]:hover ~ .star {
+            background-position: -224px 0;
+        }
+        .star[data-value="4.5"]:hover ~ .star {
+            background-position: -256px 0;
+        }
+        .star[data-value="5.0"]:hover ~ .star {
+            background-position: -288px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="rating-container">
+        <div class="stars" id="stars">
+            <div class="star" data-value="0.5"></div>
+            <div class="star" data-value="1.0"></div>
+            <div class="star" data-value="1.5"></div>
+            <div class="star" data-value="2.0"></div>
+            <div class="star" data-value="2.5"></div>
+            <div class="star" data-value="3.0"></div>
+            <div class="star" data-value="3.5"></div>
+            <div class="star" data-value="4.0"></div>
+            <div class="star" data-value="4.5"></div>
+            <div class="star" data-value="5.0"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const starsContainer = document.getElementById('stars');
+            const stars = document.querySelectorAll('.star');
+
+            stars.forEach(star => {
+                star.addEventListener('click', (event) => {
+                    const rating = event.currentTarget.dataset.value;
+                    alert(`You rated ${rating} stars!`);
+                    // Add any additional logic to handle the rating value here
+                });
+
+                star.addEventListener('mouseover', (event) => {
+                    const rating = event.currentTarget.dataset.value;
+                    stars.forEach(star => {
+                        const starValue = star.dataset.value;
+                        if (starValue <= rating) {
+                            star.style.backgroundPosition = '0 -32px';
+                        } else {
+                            star.style.backgroundPosition = '0 0';
+                        }
+                    });
+                });
+
+                star.addEventListener('mouseout', () => {
+                    stars.forEach(star => {
+                        star.style.backgroundPosition = '0 0';
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particle Diffusion Effect</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .button-container {
+            position: relative;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #6200ea;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .particle {
+            width: 5px;
+            height: 5px;
+            background-color: #6200ea;
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: diffusion 1s ease-out forwards;
+        }
+
+        @keyframes diffusion {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <button class="button" onclick="createParticles(event)">Click Me!</button>
+    </div>
+
+    <script>
+        function createParticles(event) {
+            const button = event.currentTarget;
+            const container = button.parentElement;
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.setProperty('--x', `${Math.random() * 200 - 100}px`);
+                particle.style.setProperty('--y', `${Math.random() * 200 - 100}px`);
+                particle.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`;
+                particle.style.top = `${button.offsetTop + button.offsetHeight / 2}px`;
+
+                container.appendChild(particle);
+
+                particle.addEventListener('animationend', () => {
+                    particle.remove();
+                });
+            }
+        }
+    </script>
+</body>
+</html>

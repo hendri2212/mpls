@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mouse Follow Ball</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+            display: block;
+            margin: 0 auto;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        let ballRadius = 20;
+        let ballX = canvas.width / 2;
+        let ballY = canvas.height / 2;
+
+        // Function to draw the ball
+        function drawBall(x, y) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+            ctx.beginPath();
+            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+            ctx.strokeStyle = 'black';
+            ctx.fillStyle = 'lightblue';
+            ctx.fill();
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        // Event listener for mouse movement
+        canvas.addEventListener('mousemove', (event) => {
+            const rect = canvas.getBoundingClientRect();
+            ballX = event.clientX - rect.left;
+            ballY = event.clientY - rect.top;
+            drawBall(ballX, ballY);
+        });
+
+        // Initial draw
+        drawBall(ballX, ballY);
+    </script>
+</body>
+</html>
