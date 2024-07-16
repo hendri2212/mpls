@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Captcha Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f2027;
+            background: -webkit-linear-gradient(to right, #2c5364, #203a43, #0f2027);
+            background: linear-gradient(to right, #2c5364, #203a43, #0f2027);
+        }
+
+        .container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .box {
+            background-color: #f1f2f2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .captcha {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-style: italic;
+            font-weight: bold;
+            font-size: 2em;
+            padding: 3px;
+            border-radius: 5px;
+            text-decoration: line-through;
+            color: #a0a0a0;
+            background-color: #0c0c0c;
+        }
+
+        .restart a {
+            text-decoration: none;
+        }
+
+        .errmsg {
+            color: black;
+            padding: 5px;
+            transition: 0.5s ease;
+        }
+
+        input {
+            width: 100%;
+            margin-bottom: 3px;
+        }
+    </style>
+    <script>
+        let captcha = new Array();
+
+        function createCaptcha() {
+            const activeCaptcha = document.getElementById("captcha");
+            for (q = 0; q < 6; q++) {
+                if (q % 2 == 0) {
+                    captcha[q] = String.fromCharCode(Math.floor(Math.random() * 26 + 65));
+                } else {
+                    captcha[q] = Math.floor(Math.random() * 10 + 0);
+                }
+            }
+            theCaptcha = captcha.join("");
+            activeCaptcha.innerHTML = `${theCaptcha}`;
+        }
+
+        function validateCaptcha() {
+            const errCaptcha = document.getElementById("errCaptcha");
+            const reCaptcha = document.getElementById("reCaptcha");
+            recaptcha = reCaptcha.value;
+            let validateCaptcha = 0;
+            for (var z = 0; z < 6; z++) {
+                if (recaptcha.charAt(z) != captcha[z]) {
+                    validateCaptcha++;
+                }
+            }
+            if (recaptcha == "") {
+                errCaptcha.innerHTML = "Re-Captcha must be filled";
+            } else if (validateCaptcha > 0 || recaptcha.length > 6) {
+                errCaptcha.innerHTML = "Wrong captcha";
+            } else {
+                errCaptcha.innerHTML = "Done";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="captcha" class="captcha"><script>createCaptcha();</script></div>
+        <div class="restart">
+            <a href="#" onclick="createCaptcha()">Change</a>
+        </div>
+        <div class="input">
+            <input type="text" name="reCaptcha" id="reCaptcha" placeholder="Type The Captcha" />
+        </div>
+        <div>
+            <input type="button" value="Submit" onclick="validateCaptcha()" />
+        <div>
+        <div id="errCaptcha" class="errmsg"></div>
+    </div>
+</body>
+
+</html>
